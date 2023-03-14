@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor//생성자 방식으로 빈을 주입 받기
 @RequestMapping("/board")
@@ -29,6 +31,9 @@ public class BoardController {
     }
     @GetMapping("/")
     public String listForm(Model model){
+        //DB에서 전체 게시글 데이터를 가져와서 list.html에다가 불러주기
+        List<BoardDto> boardDtoList = boardService.findAll();
+        model.addAttribute("boardList",boardDtoList);
         return "list";
     }
 }

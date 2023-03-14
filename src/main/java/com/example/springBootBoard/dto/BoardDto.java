@@ -1,5 +1,6 @@
 package com.example.springBootBoard.dto;
 
+import com.example.springBootBoard.entity.BoardEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,8 +22,21 @@ public class BoardDto {
 
     private int boardHits;//조회수
 
-    private LocalDateTime localDateTime;//글 작성시간
+    private LocalDateTime boardCreateTime;//글 작성시간
 
     private LocalDateTime boardUpdateTime;//글 수정시간
 
+    public static BoardDto toBoardDto(BoardEntity boardEntity){
+        BoardDto boardDto=new BoardDto();
+        boardDto.setId(boardEntity.getId());
+        boardDto.setBoardWriter(boardEntity.getBoardWriter());
+        boardDto.setBoardPass(boardEntity.getBoardPass());
+        boardDto.setBoardTitle(boardEntity.getBoardTitle());
+        boardDto.setBoardContents(boardEntity.getBoardContents());
+        boardDto.setBoardHits(boardEntity.getBoardHits());
+        boardDto.setBoardCreateTime(boardEntity.getCreatedTime());
+        boardDto.setBoardUpdateTime(boardEntity.getUpdatedTime());
+
+        return boardDto;
+    }
 }
