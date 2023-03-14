@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+</head>
+<body>
+  <form action="/board/save" method="post">
+      Writer:<input type="text" name="boardWriter"><br>
+      <!--name 이라는 녀석을 통해서 보내는거기 떄문에 꼭 참고할것!-->
+      Pass:<input type="text" name="boardPass"><br>
+      Title:<input type="text" name="boardTitle"><br>
+      Contents:<textarea name="boardContents" cols="30" rows="10"></textarea><br>
+      <input type="submit" value="글 작성">
+  </form>
+</body>
+</html>

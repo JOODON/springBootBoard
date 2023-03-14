@@ -5,7 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-  <button onclick="saveReq()">글 작성</button>
+    <button onclick="saveReq()">글 작성</button>
+    <a href="/board/save">글 작성 페이지(링크)</a>
+    <button onclick="listReq()">글 목록</button>
 </body>
 <script>
     // function saveReq(){
@@ -15,6 +17,10 @@
 
     const saveReq=() =>{
         location.href="/board/save"
+    }
+
+    const listReq=() =>{
+        location.href="/board"
     }
 </script>
 </html>
