@@ -4,9 +4,11 @@ import com.example.springBootBoard.entity.BoardEntity;
 import com.example.springBootBoard.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //DTO-> Entity (Entity Class)
 //Entity ->DTO (DTO Class)
@@ -14,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+
 
     public void save(BoardDto boardDto) {
         BoardEntity boardEntity=BoardEntity.toSaveEntity(boardDto);
@@ -27,5 +30,21 @@ public class BoardService {
             boardDtoList.add(BoardDto.toBoardDto(boardEntity));
         }
         return boardDtoList;
+    }
+    @Transactional
+    //우리가 암시적으로 지정한 쿼리를 실행하는 경우에는 이런식으로 처리해주기!
+    public void updateHits(Long id) {
+        boardRepository.updateHits(id);
+    }
+
+    public BoardDto findById(Long id){
+        Optional<BoardEntity> optionalBoardEntity=boardRepository.findById(id);
+        if (optionalBoardEntity.isPresent()){
+            BoardEntity boardEntity=optionalBoardEntity.get();
+            BoardDto boardDto=BoardDto.toBoardDto(boardEntity);
+            return boardDto;
+        }else {
+            return null;
+        }
     }
 }

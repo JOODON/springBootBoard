@@ -5,10 +5,7 @@ import com.example.springBootBoard.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,4 +33,18 @@ public class BoardController {
         model.addAttribute("boardList",boardDtoList);
         return "list";
     }
+
+    @GetMapping("/{id}")
+    public String findById(@PathVariable Long id,Model model){
+        //해당 게시글의 조회수를 하나 올리고 detail.html에 출력!
+        boardService.updateHits(id);
+
+        //조회수 증가 메소드
+        BoardDto boardDto=boardService.findById(id);
+
+        model.addAttribute("board",boardDto);
+        return "detail";
+    }
+
+
 }
