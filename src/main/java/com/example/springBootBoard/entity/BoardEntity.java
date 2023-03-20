@@ -39,4 +39,15 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardHits(0);//일단 조회수 값은 0으로 설정
         return boardEntity;
     }
+
+    public static BoardEntity toUpdateEntity(BoardDto boardDto) {
+        BoardEntity boardEntity=new BoardEntity();
+        boardEntity.setId(boardDto.getId());
+        boardEntity.setBoardWriter(boardDto.getBoardWriter());
+        boardEntity.setBoardPass(boardDto.getBoardPass());
+        boardEntity.setBoardTitle(boardDto.getBoardTitle());
+        boardEntity.setBoardContents(boardDto.getBoardContents());
+        boardEntity.setBoardHits(boardDto.getBoardHits());//일단 조회수 값은 0으로 설정
+        return boardEntity;
+    }
 }

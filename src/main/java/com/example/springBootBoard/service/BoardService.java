@@ -47,4 +47,12 @@ public class BoardService {
             return null;
         }
     }
+
+    public BoardDto update(BoardDto boardDto) {
+        BoardEntity boardEntity=BoardEntity.toUpdateEntity(boardDto);
+        boardRepository.save(boardEntity);
+
+        return findById(boardDto.getId());
+        //save 기능으로 inSert랑 Update 두개가 가능함 ID 값이 있으면 UpDate 쿼리가 됨
+    }
 }
