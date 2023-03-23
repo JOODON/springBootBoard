@@ -3,6 +3,10 @@ import com.example.springBootBoard.dto.BoardDto;
 import com.example.springBootBoard.entity.BoardEntity;
 import com.example.springBootBoard.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,5 +62,22 @@ public class BoardService {
 
     public void delete(Long id) {
         boardRepository.deleteById(id);
+    }
+
+    public Page<BoardDto> paging(Pageable pageable) {
+        int page=pageable.getPageNumber() - 1;
+        int pageLimit = 3;
+        Page<BoardEntity> boardEntities =
+                boardRepository.findAll(PageRequest.of(page,pageLimit,Sort.by(Sort.Direction.DESC,"id")));
+
+        System.out.println("boardEntities.getContent()"+boardEntities.getContent());//요청 페이지에 해당하는 글
+        System.out.println("boardEntities.getTotalElements()"+boardEntities.getTotalElements());//전체 글 갯수
+        System.out.println("boardEntities.getNumber()"+boardEntities.getNumber());//DB로 요청한 페이지 번호
+        System.out.println("boardEntities.getSize()"+boardEntities.getSize());//한 페이지에 보여지는 글 갯수
+        System.out.println("boardEntities.hasPrevious()"+boardEntities.hasPrevious());//이전 페이지 존재 여부
+        System.out.println("boardEntities.isFirst()"+boardEntities.isFirst());//첫 페이지 여부
+        System.out.println("boardEntities.isLast()"+boardEntities.isLast());//마지막 페이지 여부
+
+
     }
 }
