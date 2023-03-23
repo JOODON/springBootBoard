@@ -55,4 +55,8 @@ public class BoardService {
         return findById(boardDto.getId());
         //save 기능으로 inSert랑 Update 두개가 가능함 ID 값이 있으면 UpDate 쿼리가 됨
     }
+
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
+    }
 }

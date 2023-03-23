@@ -58,4 +58,10 @@ public class BoardController {
 
         return "detail";
     }
+    @GetMapping("/delete/{id}")
+    public String deleteForm(@PathVariable Long id){
+        boardService.delete(id);
+
+        return "redirect:/board/";
+    }
 }

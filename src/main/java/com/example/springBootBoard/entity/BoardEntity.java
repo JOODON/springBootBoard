@@ -50,4 +50,5 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardHits(boardDto.getBoardHits());//일단 조회수 값은 0으로 설정
         return boardEntity;
     }
+
 }
