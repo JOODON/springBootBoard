@@ -70,8 +70,11 @@ public class BoardController {
     // /board/paging?page=1;
     @GetMapping("/paging")
     public String paging(@PageableDefault (page = 1) Pageable pageable,Model model){
-//        pageable.getPageNumber();//몇 페이지가 요청 되었는지 확인!
-
+        //pageable.getPageNumber();몇 페이지가 요청 되었는지 확인!
         Page<BoardDto> boardList=boardService.paging(pageable);
+
+        //page 개수가 20개 //현재는 3페이지
+
+
     }
 }

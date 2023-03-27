@@ -78,6 +78,11 @@ public class BoardService {
         System.out.println("boardEntities.isFirst()"+boardEntities.isFirst());//첫 페이지 여부
         System.out.println("boardEntities.isLast()"+boardEntities.isLast());//마지막 페이지 여부
 
+        //목록 :id writer ,title ,hits ,createTime
+        Page<BoardDto> boardDTOS=boardEntities.map
+                (board -> new BoardDto(board.getId(),board.getBoardWriter(),board.getBoardTitle(),
+                        board.getBoardHits(),board.getCreatedTime()));
 
+        return boardDTOS;
     }
 }

@@ -26,6 +26,14 @@ public class BoardDto {
 
     private LocalDateTime boardUpdateTime;//글 수정시간
 
+    public BoardDto(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreateTime) {
+        this.id = id;
+        this.boardWriter = boardWriter;
+        this.boardTitle = boardTitle;
+        this.boardHits = boardHits;
+        this.boardCreateTime = boardCreateTime;
+    }
+
     public static BoardDto toBoardDto(BoardEntity boardEntity){
         BoardDto boardDto=new BoardDto();
         boardDto.setId(boardEntity.getId());
@@ -39,4 +47,5 @@ public class BoardDto {
 
         return boardDto;
     }
+
 }
