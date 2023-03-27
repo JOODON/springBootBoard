@@ -38,20 +38,23 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public String findById(@PathVariable Long id,Model model){
+    public String findById(@PathVariable Long id,Model model,@PageableDefault(page = 1) Pageable pageable){
         //해당 게시글의 조회수를 하나 올리고 detail.html에 출력!
         boardService.updateHits(id);
-
         //조회수 증가 메소드
         BoardDto boardDto=boardService.findById(id);
 
         model.addAttribute("board",boardDto);
+        model.addAttribute("page",pageable.getPageNumber());
+
         return "detail";
     }
     @GetMapping("/update/{id}")
     public String upDateForm(@PathVariable Long id,Model model) {
         BoardDto boardDto=boardService.findById(id);
+
         model.addAttribute("boardUpdate",boardDto);
+
         return "update";
     }
     @PostMapping("/update")
@@ -72,9 +75,18 @@ public class BoardController {
     public String paging(@PageableDefault (page = 1) Pageable pageable,Model model){
         //pageable.getPageNumber();몇 페이지가 요청 되었는지 확인!
         Page<BoardDto> boardList=boardService.paging(pageable);
+        //page 개수가 20개 // 3페이지 1 2 3  7페이지 이면 7 8 9
+        int blockLimit = 3;//페이지 갯수의 변수값
+        int startPage=(((int)Math.ceil((double) pageable.getPageNumber() / blockLimit))-1) * blockLimit + 1;
+        //현재 사용자가 요청한 페이지를 3으로 나눠서 -1 로 빼기 * 3 + 1 => 1,4,7,10
+        int endPage=((startPage + blockLimit -1) < boardList.getTotalElements()) ?
+                startPage + blockLimit - 1 :
+                boardList.getTotalPages() ;
 
-        //page 개수가 20개 //현재는 3페이지
+        model.addAttribute("boardList",boardList);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
 
-
+        return "paging";
     }
 }
