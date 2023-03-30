@@ -1,6 +1,8 @@
 package com.example.springBootBoard.service;
 import com.example.springBootBoard.dto.BoardDto;
 import com.example.springBootBoard.entity.BoardEntity;
+import com.example.springBootBoard.entity.BoardFileEntity;
+import com.example.springBootBoard.repository.BoardFileRepository;
 import com.example.springBootBoard.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
-
+    private final BoardFileRepository boardFileRepository;
 
     public void save(BoardDto boardDto)throws IOException {
         // 파일 첨부 여부에 따라 로직 분리
@@ -40,6 +42,16 @@ public class BoardService {
             //1970년부터 언제나 지났는지 메소드인데 그냥 파일 이름 만들어주기~
             String savePath= "C:/springboot_images/"+storedFileName;//내가 이 위치에 폴더 만들기! 이곳에 저장될 예정
             boardFile.transferTo(new File(savePath)); //이 부분에서 실제로 저장되는 부분! ->이 부분에서 예외처리!
+            BoardEntity boardEntity=BoardEntity.toSaveFileEntity(boardDto);
+            Long saveId=boardRepository.save(boardEntity).getId();//부모 자식 관계 [자식 테이블 부모가 어떤 번호인지 필요함] PK값 추출
+
+            BoardEntity board=boardRepository.findById(saveId).get();//[부모 엔티티를 다시 부모로부터 가져옴!]저장한놈의 Id값을 가쟈와야댐
+
+            BoardFileEntity boardFileEntity=BoardFileEntity.toBoardFileEntity(boardEntity,originalFileName,storedFileName);
+            //부모엔티티 오리지널파일 그냥 변환 파일순으로 넘겨주기
+
+            boardFileRepository.save(boardFileEntity);
+            //DB에 저장까지
         }
     }
 

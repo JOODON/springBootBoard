@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //DB의 테이블 역활을 하는 클래스
 @Entity
@@ -33,6 +35,12 @@ public class BoardEntity extends BaseEntity{
     @Column
     private int fileAttached; //1 or 0
 
+    @OneToMany(mappedBy = "boardEntity",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<BoardFileEntity> boardFileEntityList=new ArrayList<>();
+
+    //mappedBy ->무엇과 매칭되는지 boardFileEntity 에 있는 board_Id의 이름을 가진 BoardEntity 랑 엮이기 때문에! 저렇게 지음
+    //cascade = CascadeType.REMOVE,orphanRemoval = true 지워지면 같이 지워질수 있게끔 해주는 부분!
+
     public static BoardEntity toSaveEntity(BoardDto boardDto){
         BoardEntity boardEntity=new BoardEntity();
         boardEntity.setBoardWriter(boardDto.getBoardWriter());
@@ -43,7 +51,16 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setFileAttached(0);//파일을 안가져오기 때문에 FileAttached 를0으로 해줌
         return boardEntity;
     }
-
+    public static BoardEntity toSaveFileEntity(BoardDto boardDto){
+        BoardEntity boardEntity=new BoardEntity();
+        boardEntity.setBoardWriter(boardDto.getBoardWriter());
+        boardEntity.setBoardPass(boardDto.getBoardPass());
+        boardEntity.setBoardTitle(boardDto.getBoardTitle());
+        boardEntity.setBoardContents(boardDto.getBoardContents());
+        boardEntity.setBoardHits(0);//일단 조회수 값은 0으로 설정
+        boardEntity.setFileAttached(1);//파일을 가져오기 떄문에 1로 설정해주는 모습~
+        return boardEntity;
+    }
     public static BoardEntity toUpdateEntity(BoardDto boardDto) {
         BoardEntity boardEntity=new BoardEntity();
         boardEntity.setId(boardDto.getId());
@@ -54,5 +71,6 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardHits(boardDto.getBoardHits());//일단 조회수 값은 0으로 설정
         return boardEntity;
     }
+
 
 }

@@ -23,4 +23,5 @@ public class BaseEntity {
     @Column(updatable = false)
     private LocalDateTime updatedTime;
 
+
 }
