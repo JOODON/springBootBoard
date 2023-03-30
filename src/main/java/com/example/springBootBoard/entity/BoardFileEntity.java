@@ -31,9 +31,11 @@ public class BoardFileEntity {
     public static BoardFileEntity toBoardFileEntity(BoardEntity boardEntity,String originalFileName,String storedFileName){
         BoardFileEntity boardFileEntity=new BoardFileEntity();
         boardFileEntity.setOriginalFileName(originalFileName);
-        boardFileEntity.setOriginalFileName(storedFileName);
+        boardFileEntity.setStoredFileName(storedFileName);
         boardFileEntity.setBoardEntity(boardEntity);
 
         return boardFileEntity;
     }
+
+
 }

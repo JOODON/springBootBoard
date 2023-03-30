@@ -53,7 +53,21 @@ public class BoardDto {
         boardDto.setBoardHits(boardEntity.getBoardHits());
         boardDto.setBoardCreateTime(boardEntity.getCreatedTime());
         boardDto.setBoardUpdateTime(boardEntity.getUpdatedTime());
+        if (boardEntity.getFileAttached() == 0){
+            boardDto.setFileAttached(boardEntity.getFileAttached()); //0
+        }
+        else {
+            boardDto.setFileAttached(boardEntity.getFileAttached()); //1
+            //파일 이름을 가져가야함
+            //원본파일 변환파일 : boardFileEntity 가 가지고 있지만 연관관계를 통해 가져올수있음
+            //Join Query : SELECT * FROM board _b , board_File_table bf where b.id =bf.board_id and where b.id=?
+            //이걸 이런식으로 처리가 가능함!
+            boardDto.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
+            boardDto.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+            //첨부파일이 한개 이기 때문에 그냥 한개로 가져옴~!
 
+        }
         return boardDto;
     }
+
 }

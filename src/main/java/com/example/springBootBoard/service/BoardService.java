@@ -55,6 +55,8 @@ public class BoardService {
         }
     }
 
+    @Transactional
+    //여기도 OriginalFileName 을 가져왔기 때문에 이런식으로 처리해주기!
     public List<BoardDto> findAll(){
         List<BoardEntity> boardEntityList=boardRepository.findAll();
 
@@ -70,6 +72,8 @@ public class BoardService {
         boardRepository.updateHits(id);
     }
 
+    @Transactional
+    //부모가 자식을 불렀기 때문에 여기도 이런식으로 처리해주기!
     public BoardDto findById(Long id){
         Optional<BoardEntity> optionalBoardEntity=boardRepository.findById(id);
         if (optionalBoardEntity.isPresent()){
