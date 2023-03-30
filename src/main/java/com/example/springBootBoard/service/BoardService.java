@@ -9,7 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MultipartFilter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +26,23 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
 
-    public void save(BoardDto boardDto) {
-        BoardEntity boardEntity=BoardEntity.toSaveEntity(boardDto);
-        boardRepository.save(boardEntity);
+    public void save(BoardDto boardDto)throws IOException {
+        // 파일 첨부 여부에 따라 로직 분리
+        if (boardDto.getBoardFile().isEmpty()){
+            BoardEntity boardEntity=BoardEntity.toSaveEntity(boardDto);
+            boardRepository.save(boardEntity);
+            //첨부 파일이 없는경우 처리해줄 로직
+        }
+        else {
+            MultipartFile boardFile=boardDto.getBoardFile();
+            String originalFileName=boardFile.getOriginalFilename();//파일의 이름을 가지고 오는 부분
+            String storedFileName = System.currentTimeMillis() + "_" +originalFileName;
+            //1970년부터 언제나 지났는지 메소드인데 그냥 파일 이름 만들어주기~
+            String savePath= "C:/springboot_images/"+storedFileName;//내가 이 위치에 폴더 만들기! 이곳에 저장될 예정
+            boardFile.transferTo(new File(savePath)); //이 부분에서 실제로 저장되는 부분! ->이 부분에서 예외처리!
+        }
     }
+
     public List<BoardDto> findAll(){
         List<BoardEntity> boardEntityList=boardRepository.findAll();
 

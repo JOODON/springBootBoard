@@ -30,6 +30,9 @@ public class BoardEntity extends BaseEntity{
     @Column
     private int boardHits;
 
+    @Column
+    private int fileAttached; //1 or 0
+
     public static BoardEntity toSaveEntity(BoardDto boardDto){
         BoardEntity boardEntity=new BoardEntity();
         boardEntity.setBoardWriter(boardDto.getBoardWriter());
@@ -37,6 +40,7 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardTitle(boardDto.getBoardTitle());
         boardEntity.setBoardContents(boardDto.getBoardContents());
         boardEntity.setBoardHits(0);//일단 조회수 값은 0으로 설정
+        boardEntity.setFileAttached(0);//파일을 안가져오기 때문에 FileAttached 를0으로 해줌
         return boardEntity;
     }
 

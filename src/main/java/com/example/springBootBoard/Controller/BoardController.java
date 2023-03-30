@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,7 @@ public class BoardController {
         return "save";
     }
     @PostMapping("/save")
-    public String saveAction(@ModelAttribute BoardDto boardDto){//네임값 DTO로 자동 변경
+    public String saveAction(@ModelAttribute BoardDto boardDto) throws IOException {//네임값 DTO로 자동 변경
         boardService.save(boardDto);
         return "index";
     }

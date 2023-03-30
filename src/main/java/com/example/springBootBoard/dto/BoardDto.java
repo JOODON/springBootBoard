@@ -2,6 +2,7 @@ package com.example.springBootBoard.dto;
 
 import com.example.springBootBoard.entity.BoardEntity;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +27,14 @@ public class BoardDto {
 
     private LocalDateTime boardUpdateTime;//글 수정시간
 
+    private MultipartFile boardFile; // 스프링에서 제공하는 파일을 담아주는 객체
+    //Save.html -> Controller 로넘어올떄 파일을 담는 용도
+
+    private String originalFileName; //파일 이름
+
+    private String storedFileName; //서버 저장용 파일
+
+    private int fileAttached; //파일 첨부 여부 (첨부 1,미첨부 0)
     public BoardDto(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreateTime) {
         this.id = id;
         this.boardWriter = boardWriter;
@@ -47,5 +56,4 @@ public class BoardDto {
 
         return boardDto;
     }
-
 }
