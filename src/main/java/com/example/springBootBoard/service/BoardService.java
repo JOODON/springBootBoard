@@ -36,21 +36,22 @@ public class BoardService {
             //첨부 파일이 없는경우 처리해줄 로직
         }
         else {
-            MultipartFile boardFile=boardDto.getBoardFile();
-            String originalFileName=boardFile.getOriginalFilename();//파일의 이름을 가지고 오는 부분
-            String storedFileName = System.currentTimeMillis() + "_" +originalFileName;
-            //1970년부터 언제나 지났는지 메소드인데 그냥 파일 이름 만들어주기~
-            String savePath= "C:/springboot_images/"+storedFileName;//내가 이 위치에 폴더 만들기! 이곳에 저장될 예정
-            boardFile.transferTo(new File(savePath)); //이 부분에서 실제로 저장되는 부분! ->이 부분에서 예외처리!
             BoardEntity boardEntity=BoardEntity.toSaveFileEntity(boardDto);
             Long saveId=boardRepository.save(boardEntity).getId();//부모 자식 관계 [자식 테이블 부모가 어떤 번호인지 필요함] PK값 추출
-
             BoardEntity board=boardRepository.findById(saveId).get();//[부모 엔티티를 다시 부모로부터 가져옴!]저장한놈의 Id값을 가쟈와야댐
 
-            BoardFileEntity boardFileEntity=BoardFileEntity.toBoardFileEntity(boardEntity,originalFileName,storedFileName);
-            //부모엔티티 오리지널파일 그냥 변환 파일순으로 넘겨주기
+            for (MultipartFile boardFile : boardDto.getBoardFile()){
 
-            boardFileRepository.save(boardFileEntity);
+                String originalFileName=boardFile.getOriginalFilename();//파일의 이름을 가지고 오는 부분
+                String storedFileName = System.currentTimeMillis() + "_" +originalFileName;
+                //1970년부터 언제나 지났는지 메소드인데 그냥 파일 이름 만들어주기~
+                String savePath= "C:/springboot_images/"+storedFileName;//내가 이 위치에 폴더 만들기! 이곳에 저장될 예정
+                boardFile.transferTo(new File(savePath)); //이 부분에서 실제로 저장되는 부분! ->이 부분에서 예외처리!
+                BoardFileEntity boardFileEntity=BoardFileEntity.toBoardFileEntity(boardEntity,originalFileName,storedFileName);
+                //부모엔티티 오리지널파일 그냥 변환 파일순으로 넘겨주기
+                boardFileRepository.save(boardFileEntity);
+
+            }
             //DB에 저장까지
         }
     }
