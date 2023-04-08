@@ -41,6 +41,9 @@ public class BoardEntity extends BaseEntity{
     //mappedBy ->무엇과 매칭되는지 boardFileEntity 에 있는 board_Id의 이름을 가진 BoardEntity 랑 엮이기 때문에! 저렇게 지음
     //cascade = CascadeType.REMOVE,orphanRemoval = true 지워지면 같이 지워질수 있게끔 해주는 부분!
 
+    @OneToMany(mappedBy = "boardEntity",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList=new ArrayList<>();
+
     public static BoardEntity toSaveEntity(BoardDto boardDto){
         BoardEntity boardEntity=new BoardEntity();
         boardEntity.setBoardWriter(boardDto.getBoardWriter());
