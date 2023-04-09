@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+    </script>
+
+</head>
+<body>
+    <button onclick="ex01Fn()">ex01 함수 호출</button>
+
+    <script>
+        const ex01Fn = () => {
+            $.ajax({
+                //요청 방식 : get //요청 주소 ex01 이라면
+                type: "get",
+                url: "/ex01",
+                //요청이 성공했을 때 실행되는 부분
+                success: function (res){
+                    console.log("성공",res);
+                },
+                //res 를 이런식으로 보낼경우에는 Html 내용 전체를 보내줌
+                //그러면 Ajax 가 끝나고 기존에 하던식으로 바뀌는게 아니라 페이지를 보내주는 느낌으로 생각하기
+                //요청이 실패 할때 실행되는 부분
+                error: function (res){
+                    console.log("실패",res);
+                }
+            })
+        };
+    </script>
+</body>
+</html>

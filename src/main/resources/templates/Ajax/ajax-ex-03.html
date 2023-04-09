@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+    </script>
+
+</head>
+<body>
+    <button onclick="ex03Fn()">ex03 함수 호출</button>
+
+    <script>
+        const ex03Fn = () => {
+            const val1="Hello SpringBoot!";
+
+            $.ajax({
+                type: "get",
+                url: "/ex03",
+                data: {
+                    "param1": val1,
+                    "param2": "인녕"
+                },
+                //파라미터의값 을 보내줄떄 는 이런식으로 보내주어야함
+
+                success: function (res){
+                    console.log("성공",res);
+                },
+                error: function (res){
+                    console.log("실패",res);
+                }
+            })
+        };
+    </script>
+</body>
+</html>
